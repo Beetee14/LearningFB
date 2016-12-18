@@ -3,8 +3,15 @@ package hello;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
-import com.restfb.types.Group;
 import com.restfb.types.Post;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by traub_000 on 12/15/2016.
@@ -15,11 +22,50 @@ public class Main {
 
         FacebookClient facebookClient= new DefaultFacebookClient(Constants.MY_ACCESS_TOKEN);
 
-        Connection<Post> groupFeed = facebookClient.fetchConnection("ritfoodshare/feed", Post.class);
-//        Connection<Group> groupFeed = facebookClient.fetchConnection("886700444689855/groups", Group.class);
+        Connection<Post> groupFeed = facebookClient.fetchConnection("761563947267935/feed", Post.class);
 
-        for(int i = 0; i < 10; i++) {
-            System.out.println("Message " + i + ": " + groupFeed.getData().get(i).getMessage());
+        int pageNum = 1;
+        int postNum = 1;
+        int size = groupFeed.getData().size();
+        System.out.println(size);
+
+        FileWriter fWr = null;
+        try {
+            fWr = new FileWriter("Foodshare Posts.csv");
+            BufferedWriter wr = new BufferedWriter(fWr);
+
+            String type;
+            Calendar cal;
+            int hour_24;
+            int min;
+            int day;
+            String msg;
+
+            for(List<Post> groupFeedPage: groupFeed) {
+                for (Post post : groupFeedPage) {
+                    /*
+                     I'm considering filtering by type == "added_photos" in the future
+                     because they are almost always free leftovers. However, it's only a
+                     small percentage of the total posts.
+                     */
+                    type = post.getStatusType();
+                    cal = GregorianCalendar.getInstance();
+                    cal.setTime(post.getCreatedTime());
+                    hour_24 = cal.get(Calendar.HOUR_OF_DAY);
+                    day = cal.get(Calendar.DAY_OF_WEEK);
+                    msg = post.getMessage();
+                    wr.write(type + "," + hour_24 + "," + day + "," + msg + "\n");
+                    System.out.println("PostNum/Type " + postNum + type + ": " + post.getMessage());
+                    postNum++;
+                }
+                pageNum++;
+                if (pageNum == 2) break;
+            }
+            wr.flush();
+            wr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 }
