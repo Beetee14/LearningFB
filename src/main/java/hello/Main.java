@@ -49,17 +49,25 @@ public class Main {
                      small percentage of the total posts.
                      */
                     type = post.getStatusType();
+                    /*
+                    Also considering removing posts with "?" in them. In a sample of 200 posts,
+                    18 out of 20 posts with "?" in them were undesirable.
+                     */
                     cal = GregorianCalendar.getInstance();
                     cal.setTime(post.getCreatedTime());
                     hour_24 = cal.get(Calendar.HOUR_OF_DAY);
                     day = cal.get(Calendar.DAY_OF_WEEK);
                     msg = post.getMessage();
+                    if(msg != null) {
+                        msg = msg.replaceAll("\n", " ");
+                        msg = msg.replaceAll("\"", "'");
+                    }
                     wr.write(type + "," + hour_24 + "," + day + "," + msg + "\n");
-                    System.out.println("PostNum/Type " + postNum + type + ": " + post.getMessage());
+//                    System.out.println("PostNum/Type " + postNum + type + ": " + post.getMessage());
                     postNum++;
                 }
                 pageNum++;
-                if (pageNum == 2) break;
+                if (pageNum == 9) break;
             }
             wr.flush();
             wr.close();

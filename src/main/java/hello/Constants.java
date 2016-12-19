@@ -9,7 +9,7 @@ public class Constants {
             = "http://localhost:8080/facebookfriends/FriendsListServlet";
 
 
-    public static final String MY_ACCESS_TOKEN = "EAACEdEose0cBACvhZB4BF5ijhBqpeNXtnN3dPNLdhZACZAHRCDiEmtBQpJXxHXvaKQ603TbOu7N5ZA6T3P603NJDZCGMGMcwZBTYuZAnqcGkIiOB1I0qGU8wqFaH0PZCpvoLHtGqIF7XZBbpGYDcXFVqafXCRyZArlxIjZBLsRky8bcNwZDZD";
+    public static final String MY_ACCESS_TOKEN = "EAACEdEose0cBAHZAXiZAgzUv1l2ZC9JQLi7yblwrdvpIVQwVXwqZBywl8F3Dw5l7uy9sT6Y7w7PclZB8oFkTIuSIeEPBhRZBdBGXRUXrHuZCqErdJPZBt252S1DXwOivJXUzPgjlo0o91tW3hx8RFBqAfWrTJajOO2pja54B47MOJwZDZD";
 
     // Facebook App
     public static final String MY_APP_ID = "192337791229416";
